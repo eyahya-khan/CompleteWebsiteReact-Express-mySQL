@@ -1,0 +1,86 @@
+h1{
+    text-align: center;
+}
+.inputData{
+    margin-left: 20%;
+}
+.Main input{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 1fr);
+    grid-row-gap: 10px;
+
+    height: 35px;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+textarea{
+    width: 63%;
+    height: 65px;
+margin-top: 10px;
+
+}
+button{
+    width: 65%;
+    height: 35px;
+}
+
+table{
+    width: 100%;
+    margin-top: 40px;
+}
+th{
+    text-align: left;
+    width: 10px;
+}
+td input{
+    border: none;
+    width: 100%;
+}
+.description{
+    width: 40%;
+}
+td button{
+   width: 65px;
+   margin-bottom: 5px;
+}
+
+/* On screens that are 992px wide or more */
+@media screen and (min-width: 993px) {
+    textarea{
+        width: 40%;
+        margin-top: 13px;
+    }
+    button{
+        width: 41%;
+    } 
+    .Main input{
+        width: 40%;
+        margin-top: 11px;
+    }
+    .inputData{
+        margin-left: 29%;
+    }
+    input.tdDescription{
+        width: 95%;
+    }
+}
+
+/* On screens that are 992px wide or less */
+@media screen and (max-width: 992px) {
+    .Main input {
+        width: 63%;
+    } 
+    .inputData{
+        margin-left: 18%;
+    }
+    textarea{
+        margin-top: 11px;
+    }
+  }
+  
+  /* On screens that are 600px wide or less */
+  @media screen and (max-width: 600px) {
+    
+  }

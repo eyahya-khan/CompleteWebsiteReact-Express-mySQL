@@ -26,9 +26,11 @@ app.post('/api/insert',(req,res)=>{
     const productname = req.body.productname
     const productdescription = req.body.productdescription
     const imagedata = req.body.image
+    const productquantity = req.body.productquantity
+    const producttype = req.body.producttype
 
-    const mysqlInsert = 'INSERT INTO testtable (productname,productdescription,image) VALUES (?,?,?);'
-    db.query(mysqlInsert,[productname,productdescription,imagedata],(err,result)=>{
+    const mysqlInsert = 'INSERT INTO testtable (productname,productdescription,image,quantity,type) VALUES (?,?,?,?,?);'
+    db.query(mysqlInsert,[productname,productdescription,imagedata,productquantity,producttype],(err,result)=>{
         //console.log(err)
         res.send(result);
     })
