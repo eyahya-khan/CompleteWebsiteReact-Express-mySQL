@@ -1,5 +1,5 @@
 # Target:
-Make a complete E-Commercxe site with full functioning like
+Make a complete database site with full functioning like
 1. CRUD Application (done)
 2. Image upload (done)
 3. Responsive site (done)
@@ -8,7 +8,8 @@ Make a complete E-Commercxe site with full functioning like
 6. Database connection (done)
 7. Search from database
 8. Modal
-9. Add to cart
+9. API
+
 
 # Getting Started with Create React App
 

@@ -21,11 +21,36 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+//image upload
+const fileStorageEngine = multer.diskStorage({
+    destination: (req, file, cb)=> {
+        cb(null, "./images")
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '--' + file.originalname)
+    }
+})
+
+const upload = multer({ storage: fileStorageEngine })
+//for single image
+app.post('/single', upload.single('image'), (req, res) => {
+    console.log(req.file.filename)
+    res.send('Single image upload success!')
+  })
+
+//for multiple image
+app.post('/multiple', upload.array('images',3), (req, res) => {
+    console.log(req.files)
+    res.send('Multiple image upload success!')
+  })
+
 //add data from frontend
-app.post('/api/insert',(req,res)=>{
+app.post('/api/insert',upload.single('image'),(req,res)=>{
     const productname = req.body.productname
     const productdescription = req.body.productdescription
-    const imagedata = req.body.image
+    const imagedata = req.file.filename
+    //console.log(productdescription)
+    //console.log(req.file)
     const productquantity = req.body.productquantity
     const producttype = req.body.producttype
 
@@ -35,7 +60,6 @@ app.post('/api/insert',(req,res)=>{
         res.send(result);
     })
 })
-
 
 //fetch data from database
 app.get('/api/get',(req,res)=>{
@@ -66,29 +90,6 @@ app.put('/api/update',(req,res)=>{
         if (err) console.log(err);
     })
 })
-
-//image upload
-const fileStorageEngine = multer.diskStorage({
-    destination: (req, file, cb)=> {
-        cb(null, "./images")
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '--' + file.originalname)
-    }
-})
-
-const upload = multer({ storage: fileStorageEngine })
-//for single image
-app.post('/single', upload.single('image'), (req, res) => {
-    console.log(req.file)
-    res.send('Single image upload success!')
-  })
-
-//for multiple image
-app.post('/multiple', upload.array('images',3), (req, res) => {
-    console.log(req.files)
-    res.send('Multiple image upload success!')
-  })
 
 app.listen(3001,()=>{
     console.log('Running on port 3001 ');

@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useRef} from 'react'
 import './Mainpage.css'
 import Axios from 'axios'
+import logo from './tania2.jpg' // relative path to image
 
 function Mainpage() {
     const [productname,setProductname]                 = useState('')
@@ -11,7 +12,7 @@ function Mainpage() {
     //for update
     const [inputupdate, setInputupdate]                = useState('')
     const [inputupdatename, setInputupdatename]        = useState('')
-    const [inputupdatequantity, setInputupdatequantity]        = useState('')
+    const [inputupdatequantity, setInputupdatequantity]= useState('')
     const [inputupdatetype, setInputupdatetype]        = useState('')
     //for display
     const [namelist,setNamelist]                       = useState([])
@@ -47,31 +48,43 @@ function Mainpage() {
         setInputupdatetype(e.target.value)
     }
     const handleSubmit = ()=>{
+       
         //image upload in server
         const data = new FormData()
         //here 'image' comes from 'upload.single('image')'
+        data.append('productname', productname)
+        data.append('productdescription', productdescription)
         data.append('image', imagedata)
-        fetch('http://localhost:3001/single', {
+        data.append('productquantity', productquantity)
+        data.append('producttype', producttype)
+
+        fetch('http://localhost:3001/api/insert', {
             method: "post",
-            body: data,
+            body: data
         })
-        //insert info in database
-        if(productname === '' || productdescription === '' || productquantity === '' || producttype === ''){
+
+        //insert info in database using Axios
+       /* if(productname === '' || productdescription === '' || productquantity === '' || producttype === ''){
             alert('Information is missing!')
         }else{
-    Axios.post('http://localhost:3001/api/insert',
-    {productname:productname,productdescription:productdescription,image:'imagedata',productquantity:productquantity, producttype:producttype})
+        Axios.post('http://localhost:3001/api/insert',
+            {productname:productname,productdescription:productdescription,imagedata:'data',productquantity:productquantity, producttype:producttype})
         .then(()=>{    
             //adding data with previous datalist
-           setNamelist([...namelist,{productname:productname,productdescription:productdescription,productquantity:productquantity, producttype:producttype}])
+        setNamelist([...namelist,{productname:productname,productdescription:productdescription,productquantity:productquantity, producttype:producttype}])
         }) 
+        }*/
+
         //clear input field >>>>> value = {firstname}
         setProductdescription('')
         setProductname('') 
+        setImagedata('')
         setProductquantity('') 
         setProducttype('') 
-        } 
+
+    setNamelist([...namelist,{productname:productname,productdescription:productdescription,productquantity:productquantity, producttype:producttype}])
     }
+
     const handleDelete = (id)=>{
         Axios.delete(`http://localhost:3001/api/delete/${id}`)
         .then(()=>{    
@@ -83,7 +96,7 @@ function Mainpage() {
         Axios.put("http://localhost:3001/api/update",{id:id,productname:inputupdatename, productdescription:inputupdate,productquantity:inputupdatequantity, producttype:inputupdatetype})
         .then(()=>{    
             //adding data with previous datalist
-           setNamelist([...namelist,{productname:inputupdatename,productdescription:inputupdate,productquantity:inputupdatequantity, producttype:inputupdatetype}])
+           setNamelist([...namelist,{productname:inputupdatename, productdescription:inputupdate, productquantity:inputupdatequantity, producttype:inputupdatetype}])
         }) 
         setInputupdate('')       
     }
@@ -133,18 +146,21 @@ function Mainpage() {
           
            <button onClick={handleSubmit}>Add</button>
            </div>
-           
+
            <table>
             <tr>
+                <th>Image</th>
                 <th>Product Name</th>
                 <th className = 'description'>Description</th> 
                 <th>Quantity</th> 
                 <th>Type</th> 
                 <th className = 'thirdTh'>Action</th>
             </tr>
-           {namelist.map((value)=>{
+           {namelist.map((value, i)=>{
                return(  
-            <tr key = {value.id}>
+            <tr key = {i}>
+               
+                <td><img src = {logo} alt='tanu' width='60' height='60'/></td>
                 <td>
                    <input type='text'
                    value = {inputupdatename ? null : value.productname}
